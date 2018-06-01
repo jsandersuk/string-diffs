@@ -27,7 +27,7 @@ You will need to choose the relevant "stylist" class to match the environment wh
 
 When printing a diff to a console you can use the _ConsoleStylist_ which uses ANSI escape sequences to colour the removed and inserted text. 
 
-By default removed text is output in red and inserted text green. Colours can be configured by passing custom values to
+By default removed text is output as white on red and inserted text white on green. Colours can be configured by passing custom values to
 the _constructor_ of the class.
 
 #### Basic usage
@@ -40,10 +40,14 @@ $stylist = new JSandersUK\StringDiffs\Stylists\ConsoleStylist();
 
 The package makes use of the _bramus/ansi-php_ package to colour the text and expects its constants to set colours.
 
+**NOTE** the difference between foreground and background constants - COLOR_FG_WHITE vs COLOR_BG_WHITE; "FG" (foreground) and "BG" (background)
+
 ```php
 $stylist = new JSandersUK\StringDiffs\Stylists\ConsoleStylist(
-    Bramus\Ansi\ControlSequences\EscapeSequences\Enums\SGR::COLOR_FG_RED,
-    Bramus\Ansi\ControlSequences\EscapeSequences\Enums\SGR::COLOR_FG_GREEN
+    Bramus\Ansi\ControlSequences\EscapeSequences\Enums\SGR::COLOR_FG_WHITE,
+    Bramus\Ansi\ControlSequences\EscapeSequences\Enums\SGR::COLOR_BG_RED,
+    Bramus\Ansi\ControlSequences\EscapeSequences\Enums\SGR::COLOR_FG_WHITE,
+    Bramus\Ansi\ControlSequences\EscapeSequences\Enums\SGR::COLOR_BG_GREEN
 );
 ```
 

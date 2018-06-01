@@ -10,32 +10,38 @@ use Bramus\Ansi\Writers\BufferWriter;
 final class ConsoleStylist implements Stylist
 {
     private $removedTextColour;
+    private $removedBackgroundColour;
     private $insertedTextColour;
+    private $insertedBackgroundColour;
     private $ansi;
 
     public function __construct(
-        string $removedTextColour = SGR::COLOR_FG_RED,
-        string $insertedTextColour = SGR::COLOR_FG_GREEN
+        string $removedTextColour = SGR::COLOR_FG_WHITE,
+        string $removedBackgroundColour = SGR::COLOR_BG_RED,
+        string $insertedTextColour = SGR::COLOR_FG_WHITE,
+        string $insertedBackgroundColour = SGR::COLOR_BG_GREEN
     ) {
-        $this->removedTextColour = $insertedTextColour;
+        $this->removedTextColour = $removedTextColour;
+        $this->removedBackgroundColour = $removedBackgroundColour;
         $this->insertedTextColour = $insertedTextColour;
+        $this->insertedBackgroundColour = $insertedBackgroundColour;
         $this->ansi = new Ansi(new BufferWriter());
     }
 
     public function styleRemovedText(string $text): string
     {
-        return $this->styleText($this->removedTextColour, $text);
+        return $this->styleText($this->removedTextColour, $this->removedBackgroundColour, $text);
     }
 
     public function styleInsertedText(string $text): string
     {
-        return $this->styleText($this->insertedTextColour, $text);
+        return $this->styleText($this->insertedTextColour, $this->insertedBackgroundColour, $text);
     }
 
-    private function styleText(string $colour, $text): string
+    private function styleText(string $textColour, string $backgroundColour, $text): string
     {
         $ansi = $this->ansi;
-        $ansi->color([$colour]);
+        $ansi->color([$textColour, $backgroundColour]);
         $ansi->text($text);
         $ansi->nostyle();
         return $ansi->flush();
